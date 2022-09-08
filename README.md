@@ -1,1 +1,1 @@
-# Catalogue-Movie-Paging-3-Sample
+# GoPlay Android Engineer Technical Test
