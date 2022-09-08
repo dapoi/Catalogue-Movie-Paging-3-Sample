@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">CatMov</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="tv_show">TV Show</string>
+    <string name="movies">Movies</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="now_playing">Now Playing</string>
 </resources>
