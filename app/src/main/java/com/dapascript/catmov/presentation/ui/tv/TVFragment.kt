@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dapascript.catmov.databinding.FragmentaTvShowBinding
+import com.dapascript.catmov.databinding.FragmentTvShowBinding
 import com.dapascript.catmov.presentation.adapter.LoadingPageStateAdapter
 import com.dapascript.catmov.presentation.adapter.tv.PopularTVAdapter
 import com.dapascript.catmov.presentation.adapter.tv.TopTVAdapter
@@ -24,7 +24,7 @@ class TVFragment : Fragment() {
     private lateinit var topAdapter: TopTVAdapter
     private lateinit var popularAdapter: PopularTVAdapter
 
-    private var _binding: FragmentaTvShowBinding? = null
+    private var _binding: FragmentTvShowBinding? = null
     private val binding get() = _binding!!
     private val topViewModel: TopTVViewModel by viewModels()
     private val popularTvViewModel: PopularTVViewModel by viewModels()
@@ -34,7 +34,7 @@ class TVFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentaTvShowBinding.inflate(inflater, container, false)
+        _binding = FragmentTvShowBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -15,5 +15,5 @@
         android:id="@+id/navigation_tv_show"
         android:name="com.dapascript.catmov.presentation.ui.tv.TVFragment"
         android:label="@string/tv_show"
-        tools:layout="@layout/fragmenta_tv_show" />
+        tools:layout="@layout/fragment_tv_show" />
 </navigation>
