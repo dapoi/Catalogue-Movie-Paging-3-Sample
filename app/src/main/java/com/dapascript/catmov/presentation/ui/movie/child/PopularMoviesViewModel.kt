@@ -8,9 +8,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class TopMoviesViewModel @Inject
-constructor(
-    private val repository: MoviesRepositoryImpl
+class PopularMoviesViewModel @Inject constructor(
+    private val repositoryImpl: MoviesRepositoryImpl
 ) : ViewModel() {
-    fun getTopMovies() = repository.getTopMovies().cachedIn(viewModelScope)
+    fun getNowPlayingMovies() = repositoryImpl.getPopularMovies().cachedIn(viewModelScope)
 }

@@ -1,4 +1,4 @@
-package com.dapascript.catmov.data
+package com.dapascript.catmov.data.mediator
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType

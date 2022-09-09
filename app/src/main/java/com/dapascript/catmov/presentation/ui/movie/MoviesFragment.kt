@@ -42,7 +42,7 @@ class MoviesFragment : Fragment() {
     companion object {
         private val TAB_TITLES = intArrayOf(
             R.string.top_rated,
-            R.string.now_playing
+            R.string.popular
         )
     }
 }
