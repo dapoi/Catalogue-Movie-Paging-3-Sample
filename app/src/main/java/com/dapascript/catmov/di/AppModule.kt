@@ -2,10 +2,10 @@ package com.dapascript.catmov.di
 
 import android.app.Application
 import androidx.room.Room
-import com.dapascript.catmov.data.local.TopMoviesDatabase
-import com.dapascript.catmov.data.remote.network.ApiService
 import com.dapascript.catmov.data.TopMoviesRepository
 import com.dapascript.catmov.data.TopMoviesRepositoryImpl
+import com.dapascript.catmov.data.local.MediaDatabase
+import com.dapascript.catmov.data.remote.network.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,16 +42,16 @@ object AppModule {
         app: Application
     ) = Room.databaseBuilder(
         app,
-        TopMoviesDatabase::class.java,
-        "top_movies_database"
+        MediaDatabase::class.java,
+        "media_database"
     ).build()
 
     @Provides
     @Singleton
     fun provideMovieRepository(
         apiService: ApiService,
-        topMoviesDatabase: TopMoviesDatabase
+        mediaDatabase: MediaDatabase
     ): TopMoviesRepository {
-        return TopMoviesRepositoryImpl(apiService, topMoviesDatabase)
+        return TopMoviesRepositoryImpl(apiService, mediaDatabase)
     }
 }

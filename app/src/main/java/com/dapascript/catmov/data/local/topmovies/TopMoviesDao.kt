@@ -1,4 +1,4 @@
-package com.dapascript.catmov.data.local
+package com.dapascript.catmov.data.local.topmovies
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
