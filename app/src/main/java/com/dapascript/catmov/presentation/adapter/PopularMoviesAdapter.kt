@@ -21,6 +21,8 @@ class PopularMoviesAdapter :
         fun bind(data: PopularMoviesItem) {
             binding.apply {
                 tvMovieTitle.text = data.title
+                tvOverview.text = data.overview
+                tvVoteAverage.text = data.vote_average.toString()
 
                 val imageShimmer =
                     Shimmer.AlphaHighlightBuilder()// The attributes for a ShimmerDrawable is set by this builder

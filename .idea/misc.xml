@@ -5,13 +5,15 @@
       <map>
         <entry key="..\:/Projek/CatMov/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Projek/CatMov/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1859375" />
-        <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
         <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/fragment_home.xml" value="0.16666666666666666" />
-        <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/fragment_movies.xml" value="0.2" />
+        <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/fragment_movies.xml" value="0.22" />
         <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/fragment_now_playing.xml" value="0.2" />
+        <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/fragment_popular_movies.xml" value="0.1641025641025641" />
         <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/fragment_top_movies.xml" value="0.2" />
         <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/fragmenta_tv_show.xml" value="0.2" />
         <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/item_loading.xml" value="0.1641025641025641" />
+        <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/item_movies.xml" value="0.22" />
         <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/layout/item_top_movies.xml" value="0.22" />
         <entry key="..\:/Projek/Catalogue-Movie-Paging-3-Sample/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2" />
       </map>
