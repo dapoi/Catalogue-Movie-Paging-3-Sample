@@ -22,7 +22,9 @@ class MoviesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMoviesBinding.inflate(inflater, container, false)
+        if (!::binding.isInitialized) {
+            binding = FragmentMoviesBinding.inflate(inflater, container, false)
+        }
         return binding.root
     }
 
@@ -36,6 +38,7 @@ class MoviesFragment : Fragment() {
             TabLayoutMediator(binding.tabsMovies, this) { tab, position ->
                 tab.text = resources.getString(TAB_TITLES[position])
             }.attach()
+            isSaveEnabled = false
         }
     }
 

@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.room.Room
 import com.dapascript.catmov.data.MoviesRepository
 import com.dapascript.catmov.data.MoviesRepositoryImpl
+import com.dapascript.catmov.data.TVRepository
+import com.dapascript.catmov.data.TVRepositoryImpl
 import com.dapascript.catmov.data.local.MediaDatabase
 import com.dapascript.catmov.data.remote.network.ApiService
 import dagger.Module
@@ -53,5 +55,14 @@ object AppModule {
         mediaDatabase: MediaDatabase
     ): MoviesRepository {
         return MoviesRepositoryImpl(apiService, mediaDatabase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTVRepository(
+        apiService: ApiService,
+        mediaDatabase: MediaDatabase
+    ): TVRepository {
+        return TVRepositoryImpl(apiService, mediaDatabase)
     }
 }

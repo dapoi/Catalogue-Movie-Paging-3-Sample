@@ -12,7 +12,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dapascript.catmov.databinding.FragmentPopularMoviesBinding
 import com.dapascript.catmov.presentation.adapter.LoadingPageStateAdapter
-import com.dapascript.catmov.presentation.adapter.PopularMoviesAdapter
+import com.dapascript.catmov.presentation.adapter.movie.PopularMoviesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -21,9 +21,7 @@ import kotlinx.coroutines.launch
 class PopularMoviesFragment : Fragment() {
 
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
-
-    private var _binding: FragmentPopularMoviesBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentPopularMoviesBinding
     private val viewModel: PopularMoviesViewModel by viewModels()
 
     override fun onCreateView(
@@ -31,7 +29,11 @@ class PopularMoviesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPopularMoviesBinding.inflate(inflater, container, false)
+        if (this::binding.isInitialized) {
+            binding
+        } else {
+            binding = FragmentPopularMoviesBinding.inflate(inflater, container, false)
+        }
         return binding.root
     }
 
@@ -80,10 +82,5 @@ class PopularMoviesFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

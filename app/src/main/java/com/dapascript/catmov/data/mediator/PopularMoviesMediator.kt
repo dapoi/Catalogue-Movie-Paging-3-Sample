@@ -38,7 +38,7 @@ class PopularMoviesMediator(
                 val remoteKeys = getRemoteKeyForLastItem(state)
                 // If remoteKeys is null, that means the refresh result is not in the database yet.
                 // We can return Success with endOfPaginationReached = false because Paging
-                // will call this method again if TopMoviesRemoteKeys becomes non-null.
+                // will call this method again if TopTVRemoteKeys becomes non-null.
                 // If remoteKeys is NOT NULL but its nextKey is null, that means we've reached
                 // the end of pagination for append.
                 val nextKey = remoteKeys?.nextKey
@@ -49,8 +49,8 @@ class PopularMoviesMediator(
 
         try {
             val responseData = apiService.getPopularMovies(page)
-            val nowPlaying = responseData.results
-            val endOfPaginationReached = nowPlaying.isEmpty()
+            val popular = responseData.results
+            val endOfPaginationReached = popular.isEmpty()
 
             mediaDB.withTransaction {
                 // clear all tables in the database
@@ -60,11 +60,11 @@ class PopularMoviesMediator(
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = nowPlaying.map {
+                val keys = popular.map {
                     PopularMoviesRemoteKeys(movieId = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
                 mediaDB.popularMoviesRemoteKeysDao().insertAllKeys(keys)
-                mediaDB.popularMoviesDao().insertPopularMovies(nowPlaying)
+                mediaDB.popularMoviesDao().insertPopularMovies(popular)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {

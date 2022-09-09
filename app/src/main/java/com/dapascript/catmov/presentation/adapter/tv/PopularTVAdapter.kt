@@ -1,4 +1,4 @@
-package com.dapascript.catmov.presentation.adapter
+package com.dapascript.catmov.presentation.adapter.tv
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,22 +7,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.dapascript.catmov.data.remote.model.TopMoviesItem
-import com.dapascript.catmov.databinding.ItemMoviesBinding
+import com.dapascript.catmov.data.remote.model.PopularTVItem
+import com.dapascript.catmov.databinding.ItemTvShowsPopularBinding
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 
-class TopMovieAdapter : PagingDataAdapter<TopMoviesItem, TopMovieAdapter.TopMoviesViewHolder>(
+class PopularTVAdapter : PagingDataAdapter<PopularTVItem, PopularTVAdapter.PopularTVViewHolder>(
     DIFF_CALLBACK
 ) {
-    inner class TopMoviesViewHolder(private val binding: ItemMoviesBinding) :
-        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: TopMoviesItem) {
+    inner class PopularTVViewHolder(
+        private val binding: ItemTvShowsPopularBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(popularTVItem: PopularTVItem) {
             binding.apply {
-                tvMovieTitle.text = data.title
-                tvOverview.text = data.overview
-                tvVoteAverage.text = data.vote_average.toString()
+                tvTvTitle.text = popularTVItem.name
+                tvOverview.text = popularTVItem.overview
+                tvVoteAverage.text = popularTVItem.vote_average.toString()
 
                 val imageShimmer =
                     Shimmer.AlphaHighlightBuilder()// The attributes for a ShimmerDrawable is set by this builder
@@ -34,25 +35,25 @@ class TopMovieAdapter : PagingDataAdapter<TopMoviesItem, TopMovieAdapter.TopMovi
                         .build()
 
                 Glide.with(itemView.context)
-                    .load("https://image.tmdb.org/t/p/w500${data.poster_path}")
+                    .load("https://image.tmdb.org/t/p/w500${popularTVItem.poster_path}")
                     .placeholder(ShimmerDrawable().apply { setShimmer(imageShimmer) })
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .centerCrop()
-                    .into(ivMoviePoster)
+                    .into(ivTvPoster)
             }
         }
     }
 
-    override fun onBindViewHolder(holder: TopMoviesViewHolder, position: Int) {
-        val data = getItem(position)
-        if (data != null) {
-            holder.bind(data)
+    override fun onBindViewHolder(holder: PopularTVViewHolder, position: Int) {
+        val popularTVItem = getItem(position)
+        if (popularTVItem != null) {
+            holder.bind(popularTVItem)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopMoviesViewHolder {
-        return TopMoviesViewHolder(
-            ItemMoviesBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularTVViewHolder {
+        return PopularTVViewHolder(
+            ItemTvShowsPopularBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -61,18 +62,17 @@ class TopMovieAdapter : PagingDataAdapter<TopMoviesItem, TopMovieAdapter.TopMovi
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TopMoviesItem>() {
-            override fun areItemsTheSame(oldItem: TopMoviesItem, newItem: TopMoviesItem): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PopularTVItem>() {
+            override fun areItemsTheSame(oldItem: PopularTVItem, newItem: PopularTVItem): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: TopMoviesItem,
-                newItem: TopMoviesItem
+                oldItem: PopularTVItem,
+                newItem: PopularTVItem
             ): Boolean {
                 return oldItem == newItem
             }
         }
     }
-
 }

@@ -1,4 +1,4 @@
-package com.dapascript.catmov.presentation.adapter
+package com.dapascript.catmov.presentation.adapter.movie
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

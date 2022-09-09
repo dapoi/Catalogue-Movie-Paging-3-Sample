@@ -5,26 +5,21 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.dapascript.catmov.data.local.topmovies.TopMoviesRemoteKeys
 import com.dapascript.catmov.data.local.MediaDatabase
-import com.dapascript.catmov.data.remote.model.TopMoviesItem
+import com.dapascript.catmov.data.local.populartv.PopularTVRemoteKeys
+import com.dapascript.catmov.data.remote.model.PopularTVItem
 import com.dapascript.catmov.data.remote.network.ApiService
 import retrofit2.HttpException
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
-class TopMoviesMediator(
+class PopularTVMediator(
     private val apiService: ApiService,
     private val mediaDB: MediaDatabase
-) : RemoteMediator<Int, TopMoviesItem>() {
-
-    override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
-    }
-
+) : RemoteMediator<Int, PopularTVItem>() {
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, TopMoviesItem>
+        state: PagingState<Int, PopularTVItem>
     ): MediatorResult {
         val page = when (loadType) {
             LoadType.REFRESH -> {
@@ -52,23 +47,23 @@ class TopMoviesMediator(
         }
 
         try {
-            val responseData = apiService.getTopRatedMovies(page)
-            val topMoviesList = responseData.results
-            val endOfPaginationReached = topMoviesList.isEmpty()
+            val responseData = apiService.getPopularTvShows(page)
+            val popular = responseData.results
+            val endOfPaginationReached = popular.isEmpty()
 
             mediaDB.withTransaction {
                 // clear all tables in the database
                 if (loadType == LoadType.REFRESH) {
-                    mediaDB.remoteKeysDao().deleteRemoteKeys()
-                    mediaDB.topMoviesDao().deleteTopMovies()
+                    mediaDB.popularTVRemoteKeysDao().deleteRemoteKeys()
+                    mediaDB.popularTVDao().deletePopularTV()
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = topMoviesList.map {
-                    TopMoviesRemoteKeys(movieId = it.id, prevKey = prevKey, nextKey = nextKey)
+                val keys = popular.map {
+                    PopularTVRemoteKeys(tvId = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
-                mediaDB.remoteKeysDao().insertAllKeys(keys)
-                mediaDB.topMoviesDao().insertTopMovies(topMoviesList)
+                mediaDB.popularTVRemoteKeysDao().insertAllKeys(keys)
+                mediaDB.popularTVDao().insertPopularTV(popular)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
@@ -78,28 +73,28 @@ class TopMoviesMediator(
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, TopMoviesItem>): TopMoviesRemoteKeys? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PopularTVItem>): PopularTVRemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
-            mediaDB.remoteKeysDao().remoteKeysMovieId(data.id)
+            mediaDB.popularTVRemoteKeysDao().remoteKeysPopularTVId(data.id)
         }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, TopMoviesItem>): TopMoviesRemoteKeys? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PopularTVItem>): PopularTVRemoteKeys? {
         // Get the first page that was retrieved, that contained items.
         // From that first page, get the first item
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { data ->
-            mediaDB.remoteKeysDao().remoteKeysMovieId(data.id)
+            mediaDB.popularTVRemoteKeysDao().remoteKeysPopularTVId(data.id)
         }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, TopMoviesItem>): TopMoviesRemoteKeys? {
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, PopularTVItem>): PopularTVRemoteKeys? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
-                mediaDB.remoteKeysDao().remoteKeysMovieId(id)
+                mediaDB.popularTVRemoteKeysDao().remoteKeysPopularTVId(id)
             }
         }
     }

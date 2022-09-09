@@ -12,7 +12,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dapascript.catmov.databinding.FragmentTopMoviesBinding
 import com.dapascript.catmov.presentation.adapter.LoadingPageStateAdapter
-import com.dapascript.catmov.presentation.adapter.TopMovieAdapter
+import com.dapascript.catmov.presentation.adapter.movie.TopMovieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -21,9 +21,7 @@ import kotlinx.coroutines.launch
 class TopMoviesFragment : Fragment() {
 
     private lateinit var topMovieAdapter: TopMovieAdapter
-
-    private var _binding: FragmentTopMoviesBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentTopMoviesBinding
     private val viewModel: TopMoviesViewModel by viewModels()
 
     override fun onCreateView(
@@ -31,7 +29,11 @@ class TopMoviesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTopMoviesBinding.inflate(inflater, container, false)
+        if (this::binding.isInitialized) {
+            binding
+        } else {
+            binding = FragmentTopMoviesBinding.inflate(inflater, container, false)
+        }
         return binding.root
     }
 
@@ -81,10 +83,5 @@ class TopMoviesFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
