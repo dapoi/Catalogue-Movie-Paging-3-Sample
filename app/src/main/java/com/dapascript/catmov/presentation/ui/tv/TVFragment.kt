@@ -97,13 +97,22 @@ class TVFragment : Fragment() {
                             llError.visibility = View.GONE
                         }
                         is LoadState.Error -> {
-                            progressBar.visibility = View.GONE
-                            llError.visibility = View.VISIBLE
-                            btnRetry.setOnClickListener {
-                                popularAdapter.retry()
+                            if (popularAdapter.itemCount == 0) {
+                                progressBar.visibility = View.GONE
+                                llError.visibility = View.VISIBLE
+                                btnRetry.setOnClickListener {
+                                    topAdapter.retry()
+                                    popularAdapter.retry()
+                                }
+                            } else {
+                                progressBar.visibility = View.GONE
+                                llError.visibility = View.GONE
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Error: ${(loadState.refresh as LoadState.Error).error.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                            val result = loadState.refresh as LoadState.Error
-                            Toast.makeText(context, result.error.message, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

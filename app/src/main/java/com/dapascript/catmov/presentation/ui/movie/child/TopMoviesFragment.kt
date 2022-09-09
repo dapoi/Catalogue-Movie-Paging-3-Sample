@@ -66,20 +66,32 @@ class TopMoviesFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             topMovieAdapter.loadStateFlow.collectLatest { loadState ->
-                binding.progressBar.visibility =
-                    if (loadState.refresh is LoadState.Loading) View.VISIBLE else View.GONE
-                binding.rvMovie.visibility =
-                    if (loadState.refresh is LoadState.Loading) View.GONE else View.VISIBLE
-
-                val errorState = when {
-                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
-                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
-                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
-                    else -> null
-                }
-
-                errorState?.let {
-                    Toast.makeText(requireActivity(), it.error.message, Toast.LENGTH_SHORT).show()
+                when (loadState.refresh) {
+                    is LoadState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.llError.visibility = View.GONE
+                    }
+                    is LoadState.NotLoading -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.llError.visibility = View.GONE
+                    }
+                    is LoadState.Error -> {
+                        if (topMovieAdapter.itemCount == 0) {
+                            binding.progressBar.visibility = View.GONE
+                            binding.llError.visibility = View.VISIBLE
+                            binding.btnRetry.setOnClickListener {
+                                topMovieAdapter.retry()
+                            }
+                        } else {
+                            binding.progressBar.visibility = View.GONE
+                            binding.llError.visibility = View.GONE
+                            Toast.makeText(
+                                requireContext(),
+                                (loadState.refresh as LoadState.Error).error.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }
