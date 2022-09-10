@@ -1,10 +1,10 @@
 package com.dapascript.catmov.presentation.ui.tv
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,8 +26,7 @@ class TVFragment : Fragment() {
 
     private var _binding: FragmentTvShowBinding? = null
     private val binding get() = _binding!!
-    private val topViewModel: TopTVViewModel by viewModels()
-    private val popularTvViewModel: PopularTVViewModel by viewModels()
+    private val tvViewModel: TVViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,13 +40,14 @@ class TVFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        topAdapter = TopTVAdapter()
-        popularAdapter = PopularTVAdapter()
         initView()
         collectUiState()
     }
 
     private fun initView() {
+        topAdapter = TopTVAdapter()
+        popularAdapter = PopularTVAdapter()
+
         // Top TV
         binding.rvTopRatedTvShow.apply {
             adapter = topAdapter.withLoadStateFooter(
@@ -72,14 +72,14 @@ class TVFragment : Fragment() {
 
         // Top Rated TV Show
         viewLifecycleOwner.lifecycleScope.launch {
-            topViewModel.getTopRatedTV().collectLatest {
+            tvViewModel.getTopRatedTV().collectLatest {
                 topAdapter.submitData(it)
             }
         }
 
         // Popular TV Show
         viewLifecycleOwner.lifecycleScope.launch {
-            popularTvViewModel.getPopularTV().collectLatest {
+            tvViewModel.getPopularTV().collectLatest {
                 popularAdapter.submitData(it)
             }
         }
@@ -107,11 +107,10 @@ class TVFragment : Fragment() {
                             } else {
                                 progressBar.visibility = View.GONE
                                 llError.visibility = View.GONE
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Error: ${(loadState.refresh as LoadState.Error).error.message}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Log.e(
+                                    "Error",
+                                    (loadState.refresh as LoadState.Error).error.message.toString()
+                                )
                             }
                         }
                     }

@@ -8,8 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class PopularTVViewModel @Inject constructor(
+class TVViewModel @Inject constructor(
     private val repositoryImpl: TVRepositoryImpl
 ) : ViewModel() {
+    fun getTopRatedTV() = repositoryImpl.getTopRatedTV().cachedIn(viewModelScope)
     fun getPopularTV() = repositoryImpl.getPopularTVShow().cachedIn(viewModelScope)
 }

@@ -1,10 +1,10 @@
 package com.dapascript.catmov.presentation.ui.movie.child
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -84,11 +84,10 @@ class PopularMoviesFragment : Fragment() {
                         } else {
                             binding.progressBar.visibility = View.GONE
                             binding.llError.visibility = View.GONE
-                            Toast.makeText(
-                                requireContext(),
-                                "Error: ${loadState.refresh}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Log.e(
+                                "Error",
+                                (loadState.refresh as LoadState.Error).error.message.toString()
+                            )
                         }
                     }
                 }
