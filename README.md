@@ -1,5 +1,4 @@
-# GoPlay Android Engineer Technical Test
-
+# Sample of Implement Pagination Movie App
 Tech stack:
 
 - Kotlin
